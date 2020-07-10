@@ -8,9 +8,9 @@ section .text
 	xor 	si, si
 	xor 	di, di
 
-	mov 	si, 65d 	; X -> Columna
-	mov 	di, 50d 	; Y -> Fila
-	mov	al, 15d		
+	mov 	si, 130d 	; X -> Columna
+	mov 	di, 100d 	; Y -> Fila
+	mov	al, 30d		
 	mov	[300h], al	; L -> Lado
 	mov	al, 1100b
 	mov	[320h], al	; Color
@@ -21,7 +21,7 @@ section .text
 	mov	[320h], al
 	mov	al, 7d
 	mov	[321h], al
-	mov	al, 9d
+	mov	al, 18d
 	mov	[322h], al
 	mov	al, 00001100b
 	mov	[323h], al
@@ -31,9 +31,9 @@ section .text
 	xor 	si, si
 	xor 	di, di
 
-	mov 	si, 80d 	; X -> Columna
-	mov 	di, 50d 	; Y -> Fila
-	mov	al, 15d		
+	mov 	si, 160d 	; X -> Columna
+	mov 	di, 100d 	; Y -> Fila
+	mov	al, 30d		
 	mov	[300h], al	; L -> Lado
 	mov	al, 1110b
 	mov	[320h], al	; Color
@@ -44,7 +44,7 @@ section .text
 	mov	[320h], al
 	mov	al, 7d
 	mov	[321h], al
-	mov	al, 11d
+	mov	al, 22d
 	mov	[322h], al
 	mov	al, 00001110b
 	mov	[323h], al
@@ -54,9 +54,9 @@ section .text
 	xor 	si, si
 	xor 	di, di
 
-	mov 	si, 65d 	; X -> Columna
-	mov 	di, 20d 	; Y -> Fila
-	mov	al, 30d		
+	mov 	si, 130d 	; X -> Columna
+	mov 	di, 40d 	; Y -> Fila
+	mov	al, 60d		
 	mov	[300h], al	; L -> Lado
 	mov	al, 1010b
 	mov	[320h], al	; Color
@@ -67,7 +67,7 @@ section .text
 	mov	[320h], al
 	mov	al, 4d
 	mov	[321h], al
-	mov	al, 10d
+	mov	al, 20d
 	mov	[322h], al
 	mov	al, 00001010b
 	mov	[323h], al
@@ -77,9 +77,9 @@ section .text
 	xor 	si, si
 	xor 	di, di
 
-	mov 	si, 20d 	; X -> Columna
-	mov 	di, 20d 	; Y -> Fila
-	mov	al, 45d		
+	mov 	si, 40d 	; X -> Columna
+	mov 	di, 40d 	; Y -> Fila
+	mov	al, 90d		
 	mov	[300h], al	; L -> Lado
 	mov	al, 1011b
 	mov	[320h], al	; Color
@@ -90,7 +90,7 @@ section .text
 	mov	[320h], al
 	mov	al, 5d
 	mov	[321h], al
-	mov	al, 5d
+	mov	al, 10d
 	mov	[322h], al
 	mov	al, 00001011b
 	mov	[323h], al
@@ -100,9 +100,9 @@ section .text
 	xor 	si, si
 	xor 	di, di
 
-	mov 	si, 20d 	; X -> Columna
-	mov 	di, 65d 	; Y -> Fila
-	mov	al, 75d		
+	mov 	si, 40d 	; X -> Columna
+	mov 	di, 130d 	; Y -> Fila
+	mov	al, 150d		
 	mov	[300h], al	; L -> Lado
 	mov	al, 1001b
 	mov	[320h], al	; Color
@@ -113,7 +113,7 @@ section .text
 	mov	[320h], al
 	mov	al, 12d
 	mov	[321h], al
-	mov	al, 7d
+	mov	al, 15d
 	mov	[322h], al
 	mov	al, 00001001b
 	mov	[323h], al
@@ -123,9 +123,9 @@ section .text
 	xor 	si, si
 	xor 	di, di
 
-	mov 	si, 95d 	; X -> Columna
-	mov 	di, 20d 	; Y -> Fila
-	mov	al, 120d		
+	mov 	si, 190d 	; X -> Columna
+	mov 	di, 40d 	; Y -> Fila
+	mov	al, 240d		
 	mov	[300h], al	; L -> Lado
 	mov	al, 0101b
 	mov	[320h], al	; Color
@@ -136,7 +136,7 @@ section .text
 	mov	[320h], al
 	mov	al, 9d
 	mov	[321h], al
-	mov	al, 19d
+	mov	al, 38d
 	mov	[322h], al
 	mov	al, 00000101b
 	mov	[323h], al
@@ -147,12 +147,13 @@ section .text
 	int 	20h
 
 grafico:mov	ah, 00h
-	mov	al, 13h
+	mov	al, 12h
 	int 	10h
 	ret
 
 pixel:	mov	ah, 0Ch
 	mov	al, [320h]
+	mov	bh, 00h
 	int 	10h
 	ret
 
@@ -162,7 +163,9 @@ cuadro:	mov	bx, 0000h	;Limites de si (BH) y di (BL)
 hor:	mov 	cx, 0d 		; Columna 
 	add 	cx, si
 	mov	dx, di 		; Fila
+	mov	[330h], bx
 	call 	pixel
+	mov	bx, [330h]
 	inc 	si
 	inc 	bh
 	cmp 	bh, [300h]
