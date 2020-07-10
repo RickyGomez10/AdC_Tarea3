@@ -9,7 +9,7 @@ section .text
    mov [300h], byte 0100b
     mov si, 10d ; columna a empezar a printear
     mov di, 70d ; fila a empezar a printear
-    jmp printearCuadrado;
+    jmp mouse;
     
 
 
@@ -23,15 +23,11 @@ mouse:
     mov cx, 300
     mov dx, 200
     int 33h
-
+    call printearCuadrado
     mov ax, 06h
     int 33h 
-
-   
-    
-            
-validar:  
        
+validar:  
         mov ax,03h
         int 33h
         and bx, 3h
@@ -51,6 +47,8 @@ validar:
     s4: cmp bx, 00000010b
         JE terminar
         jmp validar
+
+
 cambiarColor:
         cmp [300h], byte 0100b
         JE color2
@@ -64,21 +62,21 @@ color2:
     mov  [300h], byte  0010b
       mov si, 10d ; columna a empezar a printear
     mov di, 70d ; fila a empezar a printear
-    jmp printearCuadrado
+    jmp mouse
 
 color3:
 
     mov [300h], byte 0001b 
       mov si, 10d ; columna a empezar a printear
     mov di, 70d ; fila a empezar a printear
-    jmp printearCuadrado
+    jmp mouse
 
 resetcolor:
 
     mov [300h], byte 0100b
     mov si, 10d ; columna a empezar a printear
     mov di, 70d ; fila a empezar a printear
-    jmp printearCuadrado
+    jmp mouse
 
 printearCuadrado:
  
@@ -94,7 +92,7 @@ printearCuadrado:
     inc di    ; incrementamos la fila
     cmp di, 145d ; comparamos si printeamos 70 filas
     jne printearCuadrado
-    jmp mouse
+    ret
 
 grafico:
 
