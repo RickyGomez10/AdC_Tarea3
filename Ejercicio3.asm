@@ -112,5 +112,7 @@ kb:
 	ret
 
 terminar:
+    mov ah, 00h
+    int 10h
     mov ah,0x4C          ;DOS "terminate" function
     int 0x21
