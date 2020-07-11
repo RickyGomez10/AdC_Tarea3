@@ -35,7 +35,7 @@ lupc:	call 	kb 		;Leer teclado
 	je	write
 	cmp	al, 40h
 	je	ajuste
-cont:	mov	[300h+di], al
+cont:	mov	[400h+di], al
 	inc	di
 	jmp	lupc	
 
@@ -50,7 +50,7 @@ write:	mov	[360h], di
 	call	m_cur2
 	xor	si, si
 lupd:	mov	ah, 0Eh 	;Mensaje 2 
-	mov	al, [300h+si]
+	mov	al, [400h+si]
 	mov	bl, 1110b
 	int	10h
 	cmp	si, 17d
@@ -101,8 +101,8 @@ lupf:	mov	cx, 20d		;Caja amarilla
 	mov	ah, 3d
 	call	m_cur2
 	xor	si, si
-lupg:	mov	ah, 0Eh 	;Mensaje 2 
-	mov	al, [300h+si]
+lupg:	mov	ah, 0Eh 	;Mensaje 4 
+	mov	al, [400h+si]
 	add	al, 20h
 	cmp	al, 40h
 	je	ajuste2
@@ -120,7 +120,7 @@ cont2:	inc	si
 	call	kb
 	int	20h
 
-nl:	mov	ah, 4d
+nl:	mov	ah, 4d		;Funciones para cambiar linea
 	call	m_cur2
 	jmp	cont1
 
@@ -154,12 +154,12 @@ limpiar:mov	ah, 00h
 	int	10h
 	ret
 
-pixel:	mov	ah, 0Ch
+pixel:	mov	ah, 0Ch			;Dibuja pixel
 	mov	al, 1110b
 	int 	10h
 	ret
 
-m_cur:	mov	dh, ah
+m_cur:	mov	dh, ah			;Mueve cursor
 	mov	dl, 25d
 	mov	bh, 0d
 	mov	ah, 02h
@@ -173,7 +173,7 @@ m_cur2:	mov	dh, ah
 	int	10h
 	ret
 
-ajuste:	mov	al, 20h
+ajuste:	mov	al, 20h		;Pone bien los espacios
 	jmp	cont
 
 ajuste2:mov	al, 20h
@@ -182,13 +182,14 @@ ajuste2:mov	al, 20h
 error:	mov	ah,3d
 	call	m_cur
 	xor	di, di
-lupx:	mov	ah, 0Eh 	;Mensaje 1 
+lupx:	mov	ah, 0Eh 	;Mensaje de error 
 	mov	al, [err+di]
 	mov	bl, 0100b
 	int	10h
 	inc	di
 	cmp	di, len2
 	jl	lupx
+	call	kb
 	int	20h
 
 kb: 	mov	ah, 00h
